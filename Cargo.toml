@@ -1,0 +1,8 @@
+[package]
+name = "sleepuntil"
+version = "0.0.1"
+authors = ["Alex Hewson <alex@mbird.biz>"]
+
+[dependencies]
+getopts = "0.2"
+chrono = "0.2"
