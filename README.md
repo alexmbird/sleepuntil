@@ -1,7 +1,7 @@
-sleepuntil - CLI Tool for Blocking Until a Time
------------------------------------------------
+sleepuntil - CLI Tool for Traveling (Forwards) in Time
+------------------------------------------------------
 
-You can use the UNIX `sleep` command to block for a specified length of time.  That's fine if you know precisely how long you want to wait, but if you want to pause the execution of your script _until a specific time_?
+You can use the UNIX `sleep` command to block for a specified duration.  That's fine if you know precisely how long you want to wait, but if you want to pause the execution of your script _until a specific time_?
 
 In bash you can do something unwieldy (as suggested [here](http://stackoverflow.com/questions/645992/bash-sleep-until-a-specific-time-date)) like:
 
@@ -12,11 +12,7 @@ sleep_seconds=$(( $target_epoch - $current_epoch ))
 sleep $sleep_seconds
 ```
 
-But wow, just yuk.  I don't trust myself to get that right whenever I write a script.  In any case it's useless when I to introduce a quick 'n dirty pause on the command line...
-
-```bash
-$ echo "hello"; wait_until 18:00; echo "go eat dinner"
-```
+But wow, just yuk.  I don't trust myself to get that right whenever I write a script.  In any case it's a royal PITA when I only want to introduce a quick 'n dirty pause on the command line.
 
 Enter the __sleepuntil__ utility.
 
@@ -111,7 +107,7 @@ I've run it on Ubuntu (AMD64 & ARMv7) and OSX.
 
 ## Limitations / TODO
 
-* Cannot sleep until times in the past.  Sorry about that.  Instead it exits immediately if the target timespec has already passed.
+* Backwards time travel not yet supported.  Instead it exits immediately if the target timespec has already passed.
 * Time to wait is calculated at the moment you start the program.  If you subsequently change your computer's clock (or timezone) it'll have no effect.
 * Behaviour for sleep encompassing a change in your local daylight savings time is undefined.
 * Accuracy is good but not perfect.  An indeterminate number of CPU cycles will pass between calculating the time delta and passing it up to the POSIX sleep() function.  Unless you need microsecond accuracy this probably doesn't matter.

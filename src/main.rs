@@ -1,10 +1,13 @@
 
+extern crate regex;
+
 
 extern crate getopts;
 use getopts::Options;
 
 extern crate chrono;
 use chrono::*;
+use chrono::Duration as ChronoDuration;
 
 use std::env;
 use std::process::exit;
@@ -12,7 +15,7 @@ use std::process::exit;
 use std::thread::sleep;
 use std::time::Duration as StdDuration;
 
-
+mod parser;
 
 use std::io::Write;
 
@@ -25,12 +28,15 @@ macro_rules! println_stderr(
 
 
 fn print_usage(program: &str, opts: Options) {
-    let brief = format!("Usage: {} [options] <timespec>
+    let brief = format!("\nUsage: {prog} [options] <timespec>
     
-    Sleep UNTil the specified time has passed.", program);
+    Sleep until the specified time is reached.", prog=program);
     print!("{}\n", opts.usage(&brief));
     print!("Examples:
-        {} 2016-11-28T12:00:00Z - block until midday on 28th November\n", program);
+    {prog} 22:19                - block until 19 mins past 10pm
+    {prog} 22:19:30             - block until 19 mins, 30 sec past 10pm
+    {prog} 2016-11-28T12:00:00Z - block until midday on 28th November\n", 
+        prog=program);
     print!("\n");
     print!("Licensed under the GPL v3; see https://github.com/alexmbird/sleepuntil for details.\n");
     print!("\n");
