@@ -1,5 +1,5 @@
 
-extern crate regex;
+#[macro_use] extern crate text_io;
 
 
 extern crate getopts;
@@ -49,12 +49,12 @@ fn print_usage(program: &str, opts: Options) {
 fn parse_timespec(timespec: Vec<String>) -> StdDuration {
     // println!("Parsing {:?}", timespec);
     let timespec_concat = timespec.join(" ");
-    let parsed_dt = match timespec_concat.parse::<DateTime<Local>>() {
+    let then = match timespec_concat.parse::<DateTime<Local>>() {
         Ok(dt)   => dt,
         Err(err) => panic!("error: cannot parse timespec '{}' - {}", 
                             timespec_concat, err.to_string()),
     };
-    let sleep_duration_chrono: Duration = parsed_dt - Local::now();
+    let sleep_duration_chrono: Duration = then.signed_duration_since(Local::now());
     let sleep_duration_std = match sleep_duration_chrono.to_std() {
         Ok(dur)  => dur,
         _ => StdDuration::new(0,0),
